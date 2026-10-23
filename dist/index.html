@@ -80,4 +80,8 @@ renderMigrated();const dots=document.querySelector('#stay-dots');if(dots){docume
 <script>
 const slideFrame=document.querySelector('#stay-slides');if(slideFrame){const prev=document.createElement('button'),next=document.createElement('button');for(const [b,label,side,step] of [[prev,'‹','left',-1],[next,'›','right',1]]){b.type='button';b.textContent=label;b.setAttribute('aria-label',label==='‹'?'Previous photo':'Next photo');b.style.cssText=`position:absolute;${side}:1rem;top:50%;transform:translateY(-50%);z-index:2;width:54px;height:54px;border:0;border-radius:50%;background:rgba(255,250,241,.92);color:#17342f;font-size:3rem;line-height:1;cursor:pointer;box-shadow:0 4px 18px rgba(0,0,0,.25)`;b.onclick=()=>window.moveStaySlide(step);slideFrame.appendChild(b)}}
 </script>
+<script>
+function moveCollectionToTop(){const app=document.querySelector('#app');if(!app)return;const heading=[...app.querySelectorAll('h2')].find(h=>h.textContent.trim()==='Explore the collection');const sliderSection=heading?.closest('.section');const hero=app.querySelector('.pagehero');if(sliderSection&&hero){sliderSection.classList.add('collection-top');hero.replaceWith(sliderSection)}}
+moveCollectionToTop();
+</script>
 </body></html>
