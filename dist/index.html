@@ -84,4 +84,30 @@ const slideFrame=document.querySelector('#stay-slides');if(slideFrame){const pre
 function moveCollectionToTop(){const app=document.querySelector('#app');if(!app)return;const heading=[...app.querySelectorAll('h2')].find(h=>h.textContent.trim()==='Explore the collection');const sliderSection=heading?.closest('.section');const hero=app.querySelector('.pagehero');if(sliderSection&&hero){sliderSection.classList.add('collection-top');hero.replaceWith(sliderSection)}}
 moveCollectionToTop();
 </script>
+<script>
+const bcolVideoEmbeds=[
+  ['BCOL video feature','https://www.youtube.com/embed/UCm8iTRfykU'],
+  ['BCOL community video','https://www.youtube.com/embed/yqBsLBJpfzg'],
+  ['BCOL Band / musical community','https://www.youtube.com/embed/2V5Fag6OFSc']
+];
+function addBcolEnhancements(){
+  const app=document.querySelector('#app'); if(!app)return;
+  const hash=location.hash.replace('#','')||'home';
+  if(hash==='gallery'&&!app.querySelector('[data-bcol-videos]')){
+    const wrap=document.createElement('section'); wrap.className='section altbg'; wrap.dataset.bcolVideos='1';
+    wrap.innerHTML='<div class="wrap"><div class="eyebrow">Video archive</div><h2>BCOL stories in motion</h2><p>Videos transferred from the original Better Choice of Living site. Use the controls to watch interviews, community stories, and musical performances.</p><div class="grid three">'+bcolVideoEmbeds.map(v=>`<article class="card"><div style="aspect-ratio:16/9;background:#17342f"><iframe title="${v[0]}" src="${v[1]}?rel=0" style="width:100%;height:100%;border:0" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div><div class="pad"><span class="tag">Transferred video</span><h3>${v[0]}</h3><p>Original-site video embed retained for owner review.</p></div></article>`).join('')+'</div></div>';
+    app.appendChild(wrap);
+  }
+  if(hash==='band'&&!app.querySelector('[data-band-videos]')){
+    const wrap=document.createElement('section'); wrap.className='section dark'; wrap.dataset.bandVideos='1';
+    wrap.innerHTML='<div class="wrap"><div class="eyebrow">Musical community</div><h2>Watch the BCOL Band story</h2><p>The original BCOL Band page describes a Detroit-rooted group of experienced musicians brought together to share their sound with Clarksville, Tennessee.</p><div class="grid three">'+bcolVideoEmbeds.map(v=>`<article class="card"><div style="aspect-ratio:16/9;background:#17342f"><iframe title="${v[0]}" src="${v[1]}?rel=0" style="width:100%;height:100%;border:0" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div><div class="pad"><h3>${v[0]}</h3><p>Watch the original embedded video.</p></div></article>`).join('')+'</div></div>';
+    app.appendChild(wrap);
+  }
+  if(hash==='about'&&!app.querySelector('[data-full-founder-info]')){
+    const cards=[...app.querySelectorAll('.card')].filter(c=>/Doris M\. Witherspoon|James P\. Witherspoon/.test(c.textContent));
+    cards.forEach((card,i)=>{const p=document.createElement('details');p.dataset.fullFounderInfo='1';p.style.marginTop='1rem';p.innerHTML=`<summary class="btn alt">Read the full original-site story</summary><div style="padding-top:1rem">${i===0?'<p>Doris Witherspoon is a retired Major of the United States Army Reserve, a Clarksville resident, and a native of Angie, Louisiana. She received her ROTC commission as a Second Lieutenant from Austin Peay State University on May 30, 1980, with a Bachelor of Science in Social Welfare and a minor in Criminal Justice.</p><p>She served as a logistician, personnel management officer, and battalion rear detachment commander during Operation Desert Storm while stationed at Fort Campbell, Kentucky, and retired from the Army Reserve in March 1998. She has also served as a real estate associate, St. Bethlehem Kiwanis Club president, and Toastmasters member.</p><p>She founded Family Properties and Better Choice of Living, and has helped veterans and other community members with disability claims, social security, social welfare, employment, home ownership, and business ownership. She continues to volunteer and mentor through Clarksville and other communities.</p>':'<p>James Paul Witherspoon, Sr. grew up near Columbia in Maury County, Tennessee, later moved to Detroit, and was drafted into the Army in 1955. He served in Germany, Vietnam, and Hawaii and raised a family with Iola Washington.</p><p>His love of church music led him to teach himself tenor saxophone at age 32. He eventually played in an Army band and performed after hours at blues clubs, including the House of Blues Raven Lounge and Downriver Lounge, later becoming part of the Variety Pack Band.</p><p>He wrote the lyrics for <em>The Blues Healer</em>, a ten-track blues CD, with music by James Chaney. The project was revived and dedicated to his first wife, reflecting the original site’s message that it is never too late to pursue a dream.</p>'}</div>`;card.querySelector('.pad')?.appendChild(p)});
+  }
+}
+addBcolEnhancements(); window.addEventListener('hashchange',()=>setTimeout(addBcolEnhancements,30));
+</script>
 </body></html>
